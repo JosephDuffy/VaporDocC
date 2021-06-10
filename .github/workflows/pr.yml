@@ -1,0 +1,23 @@
+name: Pull Request Checks
+
+on: [pull_request]
+
+jobs:
+  build_image:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Build
+        run: docker build . -t ghcr.io/josephduffy/vapordocc:latest
+
+  tests:
+    name: Tests
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: SwiftPM tests
+        run: swift test

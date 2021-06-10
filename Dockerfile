@@ -4,7 +4,7 @@ WORKDIR /build
 
 COPY Sources Sources
 COPY Tests Tests
-COPY Package.swift Package.swift
+COPY Package@swift-5.3.swift Package.swift
 COPY Package.resolved Package.resolved
 
 RUN swift package resolve

@@ -1,10 +1,17 @@
 import Vapor
 
+/// Vapor middleware that serves files from a DocC archive.
 public struct VaporDocCMiddleware: Middleware {
+    /// The path to the DocC archive.
     public let archivePath: URL
 
+    /// The website prefix. If DocC supports being hosted outside
+    /// of the root directory this property will become public.
     private let prefix: String = "/"
 
+    /// Create a new middleware that serves files from the DocC archive at ``archivePath``.
+    ///
+    /// - Parameter archivePath: The path to the DocC archive.
     public init(archivePath: URL) {
         self.archivePath = archivePath
     }

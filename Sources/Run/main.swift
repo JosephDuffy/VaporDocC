@@ -11,5 +11,5 @@ guard let archivePath = ProcessInfo.processInfo.environment["DOCS_ARCHIVE"] else
     exit(1)
 }
 let archiveURL = URL(fileURLWithPath: archivePath)
-app.middleware.use(VaporDocC(archivePath: archiveURL))
+app.middleware.use(VaporDocCMiddleware(archivePath: archiveURL))
 try app.run()

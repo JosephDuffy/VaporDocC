@@ -1,6 +1,6 @@
 import Vapor
 
-public struct VaporDocC: Middleware {
+public struct VaporDocCMiddleware: Middleware {
     public let archivePath: URL
 
     private let prefix: String = "/"

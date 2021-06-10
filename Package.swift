@@ -11,20 +11,20 @@ let package = Package(
         .library(name: "VaporDocC", targets: ["VaporDocC"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/Vapor.git", from: "4.0.0"),
+        .package(name: "vapor", url: "https://github.com/vapor/Vapor.git", from: "4.0.0"),
     ],
     targets: [
         .executableTarget(
             name: "Run",
             dependencies: [
-                .product(name: "Vapor", package: "Vapor"),
+                .product(name: "Vapor", package: "vapor"),
                 "VaporDocC",
             ]
         ),
         .target(
             name: "VaporDocC",
             dependencies: [
-                .product(name: "Vapor", package: "Vapor"),
+                .product(name: "Vapor", package: "vapor"),
             ]
         ),
         .testTarget(

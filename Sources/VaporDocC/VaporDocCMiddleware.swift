@@ -106,13 +106,13 @@ public struct VaporDocCMiddleware: Middleware {
         }
 
         let staticFilePrefixes = [
-            "css",
-            "js",
-            "data",
-            "images",
-            "downloads",
-            "img",
-            "videos",
+            "css/",
+            "js/",
+            "data/",
+            "images/",
+            "downloads/",
+            "img/",
+            "videos/",
         ]
 
         for staticFilePrefix in staticFilePrefixes where path.hasPrefix(staticFilePrefix) {

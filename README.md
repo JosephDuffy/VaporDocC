@@ -7,6 +7,8 @@ let archiveURL = URL(fileURLWithPath: "/path/to/VaporDocC.doccarchive")
 app.middleware.use(VaporDocCMiddleware(archivePath: archiveURL))
 ```
 
+Documentation – hosted by the docker image included in this repo – is available at [vapordocc.josephduffy.co.uk](https://vapordocc.josephduffy.co.uk/).
+
 ## Docker
 
 A docker image that wraps a Vapor app using the `VaporDocCMiddleware` is provided at [ghcr.io/josephduffy/vapordocc](https://github.com/users/JosephDuffy/packages/container/package/vapordocc).

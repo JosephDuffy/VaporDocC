@@ -5,17 +5,17 @@ public struct VaporDocCMiddleware: Middleware {
     /// The path to the DocC archive.
     public let archivePath: URL
 
-    /// The website prefix. If DocC supports being hosted outside
-    /// of the root directory this property will become public.
-    private let prefix: String = "/"
-
     /// The path to redirect a request to the root (`/`) to. When `nil`
     /// no redirection will occur.
-    private let redirectRoot: String?
+    public let redirectRoot: String?
 
     /// When `true` the `/documentation` and `/tutorials` endpoints will
     /// be redirected to `/documentation/` and `/tutorials/` respectively.
-    private let redirectMissingTrailingSlash: Bool
+    public let redirectMissingTrailingSlash: Bool
+
+    /// The website prefix. If DocC supports being hosted outside
+    /// of the root directory this property will become public.
+    private let prefix: String = "/"
 
     /// Create a new middleware that serves files from the DocC archive at ``archivePath``.
     ///

@@ -14,6 +14,12 @@ guard let archivePath = ProcessInfo.processInfo.environment["DOCS_ARCHIVE"] else
 let archiveURL = URL(fileURLWithPath: archivePath)
 
 let redirectRoot = ProcessInfo.processInfo.environment["REDIRECT_ROOT"]
+let redirectMissingTrailingSlash = ProcessInfo.processInfo.environment["REDIRECT_MISSING_TRAILING_SLASH"] == "TRUE"
 
-app.middleware.use(VaporDocCMiddleware(archivePath: archiveURL, redirectRoot: redirectRoot))
+let middleware = VaporDocCMiddleware(
+    archivePath: archiveURL,
+    redirectRoot: redirectRoot,
+    redirectMissingTrailingSlash: redirectMissingTrailingSlash
+)
+app.middleware.use(middleware)
 try app.run()

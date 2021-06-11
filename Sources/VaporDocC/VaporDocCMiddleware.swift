@@ -13,13 +13,22 @@ public struct VaporDocCMiddleware: Middleware {
     /// no redirection will occur.
     private let redirectRoot: String?
 
+    /// When `true` the `/documentation` and `/tutorials` endpoints will
+    /// be redirected to `/documentation/` and `/tutorials/` respectively.
+    private let redirectMissingTrailingSlash: Bool
+
     /// Create a new middleware that serves files from the DocC archive at ``archivePath``.
+    ///
+    /// When the ``redirectMissingTrailingSlash`` parameter is `true` the `/documentation` and `/tutorials`
+    /// endpoints will be redirected to `/documentation/` and `/tutorials/` respectively.
     ///
     /// - Parameter archivePath: The path to the DocC archive.
     /// - Parameter redirectRoot: When non-nil the root (`/`) will be redirected to the provided path. Defaults to `nil.`
-    public init(archivePath: URL, redirectRoot: String? = nil) {
+    /// - Parameter redirectMissingTrailingSlash: When `true` paths the require trailing slashes will be redirected to include the trailing slash. Defaults to `false`.
+    public init(archivePath: URL, redirectRoot: String? = nil, redirectMissingTrailingSlash: Bool = false) {
         self.archivePath = archivePath
         self.redirectRoot = redirectRoot
+        self.redirectMissingTrailingSlash = redirectMissingTrailingSlash
     }
 
     public func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
@@ -49,6 +58,17 @@ public struct VaporDocCMiddleware: Middleware {
         ]
 
         for indexPrefix in indexPrefixes where path.hasPrefix(indexPrefix) {
+            if indexPrefixes.contains(path) {
+                // No trailing slash on request
+                if redirectMissingTrailingSlash {
+                    return request.eventLoop.makeSucceededFuture(
+                        request.redirect(to: self.prefix + path + "/")
+                    )
+                } else {
+                    return next.respond(to: request)
+                }
+            }
+
             return serveStaticFileRelativeToArchive("index.html", request: request)
         }
 

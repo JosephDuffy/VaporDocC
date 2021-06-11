@@ -9,11 +9,17 @@ public struct VaporDocCMiddleware: Middleware {
     /// of the root directory this property will become public.
     private let prefix: String = "/"
 
+    /// The path to redirect a request to the root (`/`) to. When `nil`
+    /// no redirection will occur.
+    private let redirectRoot: String?
+
     /// Create a new middleware that serves files from the DocC archive at ``archivePath``.
     ///
     /// - Parameter archivePath: The path to the DocC archive.
-    public init(archivePath: URL) {
+    /// - Parameter redirectRoot: When non-nil the root (`/`) will be redirected to the provided path. Defaults to `nil.`
+    public init(archivePath: URL, redirectRoot: String? = nil) {
         self.archivePath = archivePath
+        self.redirectRoot = redirectRoot
     }
 
     public func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
@@ -27,6 +33,12 @@ public struct VaporDocCMiddleware: Middleware {
 
         guard path.hasPrefix(self.prefix) else {
             return request.eventLoop.makeFailedFuture(Abort(.forbidden))
+        }
+
+        if path == self.prefix, let redirectRoot = redirectRoot {
+            return request.eventLoop.makeSucceededFuture(
+                request.redirect(to: redirectRoot)
+            )
         }
 
         path = String(path.dropFirst(self.prefix.count))

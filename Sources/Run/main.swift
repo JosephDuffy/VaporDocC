@@ -12,5 +12,8 @@ guard let archivePath = ProcessInfo.processInfo.environment["DOCS_ARCHIVE"] else
     exit(1)
 }
 let archiveURL = URL(fileURLWithPath: archivePath)
-app.middleware.use(VaporDocCMiddleware(archivePath: archiveURL))
+
+let redirectRoot = ProcessInfo.processInfo.environment["REDIRECT_ROOT"]
+
+app.middleware.use(VaporDocCMiddleware(archivePath: archiveURL, redirectRoot: redirectRoot))
 try app.run()

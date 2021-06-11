@@ -25,8 +25,7 @@ let package = Package(
             name: "VaporDocC",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-            ],
-            exclude: ["VaporDocC.docc"]
+            ]
         ),
         .testTarget(
             name: "VaporDocCTests",
